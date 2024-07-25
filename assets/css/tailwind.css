@@ -11,6 +11,7 @@ body {
         @apply bg-[#12b488] text-white px-3 py-2 text-sm rounded-lg h-14;
         font-size: 24px;
         font-weight: bold;
+        border: 1px solid red;
     }
     .btn-ds {
         opacity: 0.5;
@@ -62,4 +63,10 @@ body {
     input:focus {
     outline: none;
     }
+
+    /* nuxt-link {
+        width: 100%;
+        border: 1px solid red;
+    } */
+    
 }
