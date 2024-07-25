@@ -11,7 +11,7 @@ body {
         @apply bg-[#12b488] text-white px-3 py-2 text-sm rounded-lg h-14;
         font-size: 24px;
         font-weight: bold;
-        border: 1px solid red;
+        /* border: 1px solid red; */
     }
     .btn-ds {
         opacity: 0.5;
@@ -20,6 +20,7 @@ body {
         @apply bg-gray-200 rounded-2xl mx-auto flex justify-center;
         height: 90%;
         width: 80%;
+
         /* border: 2px solid red; */
     }
     h1 {
@@ -32,6 +33,7 @@ body {
         color: rgb(255, 255, 255);
         background-color: rgb(255, 137, 58);
         box-shadow: 12px 12px 7px 5px rgba(0, 0, 0, 0.2);
+        /* width: 20vw; */
       }
     
     h2 {
@@ -40,7 +42,8 @@ body {
     }
 
     .weather-content {
-    width: 50%;
+    width: 70%;
+    /* height: 36vh; */
     /* border: 1px solid red; */
     }
 
