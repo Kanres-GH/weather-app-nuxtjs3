@@ -5,13 +5,32 @@
         <h1 class="text-center mt-3 rounded-full"><i>Weatherify</i></h1>
         <h2 class="text-center mt-5 mb-3">Enter a city name</h2>
         <div class="weather-form flex justify-center flex-col gap-5">
-          <input type="text" id="inputt" class="w-full px-4 py-2 rounded-lg text-lg md:px-12 md:py-4" placeholder="E.g. 'Almaty'" required>
-          <button class="btn" @click="getWeather">Get current weather</button>
+          <input
+            type="text"
+            id="inputt"
+            v-model="city"
+            @input="clearWarningMessage"
+            class="w-full px-4 py-2 rounded-lg text-lg md:px-12 md:py-4"
+            placeholder="E.g. 'Almaty'"
+            required
+          />
+          <button
+            class="btn"
+            :disabled="!isInputValid"
+            @click="getWeather"
+          >
+            Get current weather
+          </button>
+          <p v-if="warningMessage" class="text-red-500 text-center">{{ warningMessage }}</p>
         </div>
         <transition name="fade">
-          <div v-if="weatherData" class="weather-result mt-3 p-3 bg-gray-500 rounded-lg shadow-lg transform transition-all duration-500 ease-in-out opacity-0 h-1/2 grid grid-cols-1 md:grid-cols-2 gap-4" :class="{ 'opacity-100': weatherData }">
+          <div
+            v-if="weatherData"
+            class="weather-result mt-3 p-3 bg-gray-500 rounded-lg shadow-lg transform transition-all duration-500 ease-in-out opacity-0 h-1/2 grid grid-cols-1 md:grid-cols-2 gap-4"
+            :class="{ 'opacity-100': weatherData }"
+          >
             <div class="flex items-center col-span-1 md:col-span-2">
-              <img :src="`https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@4x.png`" class="w-16 h-16 md:w-24 md:h-24" alt="Weather Icon"/>
+              <img :src="`https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@4x.png`" class="w-16 h-16 md:w-24 md:h-24" alt="Weather Icon" />
               <div class="ml-4">
                 <h3 class="text-lg font-bold md:text-2xl">{{ weatherData.name }}</h3>
                 <p class="text-base md:text-xl mt-1 md:mt-2">{{ weatherData.main.temp }}°C</p>
@@ -46,14 +65,11 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, computed } from 'vue';
 
-const inputElement = ref(null);
+const city = ref('');
 const weatherData = ref(null);
-
-onMounted(() => {
-  inputElement.value = document.getElementById('inputt');
-});
+const warningMessage = ref('');
 
 const backgroundClass = computed(() => {
   if (!weatherData.value) return 'bg-gray-200';
@@ -63,11 +79,48 @@ const backgroundClass = computed(() => {
   return 'bg-amber-600';
 });
 
+const isInputValid = computed(() => {
+  return city.value.trim() && !warningMessage.value;
+});
+
+const clearWarningMessage = () => {
+  if (warningMessage.value) {
+    warningMessage.value = '';
+  }
+};
+
 const getWeather = async () => {
-  const city = inputElement.value.value;
-  const apiKey = '6de4f249769d3afafcb3f7048aed7ac1';
-  const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`);
-  weatherData.value = await response.json();
+  // Validate input
+  if (!city.value.trim()) {
+    warningMessage.value = 'Please enter a city name.';
+    return;
+  }
+  if (/[^a-zA-Z\s]/.test(city.value)) {
+    warningMessage.value = 'City name can only contain letters and spaces.';
+    return;
+  }
+
+  // Reset warning message
+  warningMessage.value = '';
+
+  try {
+    const apiKey = '6de4f249769d3afafcb3f7048aed7ac1';
+    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city.value}&appid=${apiKey}&units=metric`);
+    
+    if (!response.ok) {
+      if (response.status === 404) {
+        warningMessage.value = 'City not found. Please enter a valid city name.';
+      } else {
+        warningMessage.value = 'An error occurred. Please try again later.';
+      }
+      weatherData.value = null;
+      return;
+    }
+
+    weatherData.value = await response.json();
+  } catch (error) {
+    warningMessage.value = 'An error occurred. Please try again later.';
+  }
 };
 </script>
 
@@ -95,5 +148,10 @@ h3 {
 
 p {
   font-size: 1.6vw;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 </style>
