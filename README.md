@@ -1,75 +1,59 @@
-# Nuxt 3 Minimal Starter
+# Weather Application
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+This is a weather application built using Nuxt.js, Tailwind CSS and Docker.
 
-## Setup
+## Installation
 
-Make sure to install the dependencies:
+1. Clone the repository
+    ```sh
+    git clone https://github.com/your-repo/weather-app.git
+    cd weather-app
+    ```
 
-```bash
-# npm
-npm install
+2. Install dependencies
+    ```sh
+    npm install
+    ```
 
-# pnpm
-pnpm install
+## Running Locally
 
-# yarn
-yarn install
+1. Start the development server
+    ```sh
+    npm run dev
+    ```
 
-# bun
-bun install
-```
+2. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-## Development Server
+## Docker Deployment
 
-Start the development server on `http://localhost:3000`:
+### Requirements
 
-```bash
-# npm
-npm run dev
+- Docker
+- Docker Compose
 
-# pnpm
-pnpm run dev
+### Build and Run
 
-# yarn
-yarn dev
+1. Build the Docker image
+    ```sh
+    make build
+    ```
 
-# bun
-bun run dev
-```
+2. Start the application
+    ```sh
+    make up
+    ```
 
-## Production
+3. View logs
+    ```sh
+    make logs
+    ```
 
-Build the application for production:
+4. Stop the application
+    ```sh
+    make down
+    ```
 
-```bash
-# npm
-npm run build
+## Validation
 
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+- The input field must not be empty
+- The input must be a valid city name (no numbers)
