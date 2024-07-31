@@ -1,21 +1,21 @@
 <template>
-  <div class="h-screen w-screen content-center transition-colors duration-500" :class="backgroundClass">
-    <div class="second-bg">
-      <div class="weather-content flex flex-col justify-self-center">
-        <h1 class="text-center mt-3 rounded-full"><i>Weatherify</i></h1>
-        <h2 class="text-center mt-5 mb-3">Enter a city name</h2>
-        <div class="weather-form flex justify-center flex-col gap-5">
+  <div class="h-screen w-screen flex justify-center items-center transition-colors duration-500" :class="backgroundClass">
+    <div class="second-bg container mx-auto p-4">
+      <div class="weather-content flex flex-col items-center">
+        <h1 class="text-center mt-3 text-3xl md:text-5xl rounded-full"><i>Weatherify</i></h1>
+        <h2 class="text-center mt-5 mb-3 text-lg md:text-2xl">Enter a city name</h2>
+        <div class="weather-form flex flex-col items-center gap-5 w-full">
           <input
             type="text"
             id="inputt"
             v-model="city"
             @input="clearWarningMessage"
-            class="w-full px-4 py-2 rounded-lg text-lg md:px-12 md:py-4"
+            class="w-full md:w-1/2 px-4 py-2 rounded-lg text-lg"
             placeholder="E.g. 'Almaty'"
             required
           />
           <button
-            class="btn"
+            class="btn w-full md:w-1/2"
             :disabled="!isInputValid"
             @click="getWeather"
           >
@@ -142,12 +142,12 @@ const getWeather = async () => {
 }
 
 h3 {
-  font-size: 2vw;
+  font-size: 1.5rem;
   font-weight: bold;
 }
 
 p {
-  font-size: 1.6vw;
+  font-size: 1.25rem;
 }
 
 .btn:disabled {
